@@ -1,2 +1,4 @@
-ultralytics==8.0.32
-supervision==0.2.1
+#ultralytics==8.0.32
+ultralytics==8.0.170
+supervision==0.3.0
+opencv-python==4.6.0.66
