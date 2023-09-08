@@ -4,6 +4,9 @@ import argparse
 from ultralytics import YOLO
 import supervision as sv
 import numpy as np
+from pydub import AudioSegment
+from pydub.playback import play
+
 
 colors = sv.ColorPalette.default()
 
@@ -24,10 +27,13 @@ def main():
     args = parse_arguments()
     frame_width, frame_height = args.webcam_resolution
 
-    cap = cv2.VideoCapture("http://test:test@192.168.1.7:8080/video")
+    # cap = cv2.VideoCapture("http://test:test@192.168.1.7:8080/video")
+    cap = cv2.VideoCapture("testovi.mp4")
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 
+    song = AudioSegment.from_wav("sound.wav")
+    play(song)
     model = YOLO("yolov8l.pt")
 
     zone_polygons = [
@@ -76,14 +82,16 @@ def main():
             frame = box_annotator.annotate(
                 scene=frame, detections=detections_filtered, labels=labels
             )
+
+            if zone_annotators[0].zone.current_count == 1:
+                print("da")
+                song = song - 15
+
             print("Zone 1:")
             print(zone_annotators[0].zone.current_count)
             print("Zone 2:")
             print(zone_annotators[1].zone.current_count)
             frame = zone_annotator.annotate(scene=frame)
-
-        # print[zone_annotators[0].zone.current_count]
-        # print[zone_annotators[1].zone.current_count]
 
         cv2.imshow("yolov8", frame)
 
