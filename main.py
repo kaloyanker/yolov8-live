@@ -46,7 +46,7 @@ def main():
             zone=zone,
             color=colors.by_idx(index),
             thickness=2,
-            text_thickness=4,
+            text_thickness=1,
             text_scale=2,
         )
         for index, zone in enumerate(zones)
@@ -76,7 +76,14 @@ def main():
             frame = box_annotator.annotate(
                 scene=frame, detections=detections_filtered, labels=labels
             )
+            print("Zone 1:")
+            print(zone_annotators[0].zone.current_count)
+            print("Zone 2:")
+            print(zone_annotators[1].zone.current_count)
             frame = zone_annotator.annotate(scene=frame)
+
+        # print[zone_annotators[0].zone.current_count]
+        # print[zone_annotators[1].zone.current_count]
 
         cv2.imshow("yolov8", frame)
 
